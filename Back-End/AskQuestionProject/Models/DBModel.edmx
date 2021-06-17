@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AskQuestionDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AnswerTable">
+          <Key>
+            <PropertyRef Name="answerId" />
+          </Key>
+          <Property Name="answerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="nchar" MaxLength="500" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="questionId" Type="int" Nullable="false" />
+          <Property Name="date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="QuestionTable">
+          <Key>
+            <PropertyRef Name="questionId" />
+          </Key>
+          <Property Name="questionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="photo" Type="nvarchar" MaxLength="100" />
+          <Property Name="date" Type="datetime" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="view" Type="int" />
+          <Property Name="userName" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userName" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="photo" Type="nchar" MaxLength="100" />
+          <Property Name="userIsAdmin" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AnswerTable_QuestionTable">
+          <End Role="QuestionTable" Type="Self.QuestionTable" Multiplicity="1" />
+          <End Role="AnswerTable" Type="Self.AnswerTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionTable">
+              <PropertyRef Name="questionId" />
+            </Principal>
+            <Dependent Role="AnswerTable">
+              <PropertyRef Name="questionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnswerTable_UserTable">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="AnswerTable" Type="Self.AnswerTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="AnswerTable">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuestionTable_UserTable">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="QuestionTable" Type="Self.QuestionTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="QuestionTable">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AskQuestionDBModelStoreContainer">
+          <EntitySet Name="AnswerTable" EntityType="Self.AnswerTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionTable" EntityType="Self.QuestionTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AnswerTable_QuestionTable" Association="Self.FK_AnswerTable_QuestionTable">
+            <End Role="QuestionTable" EntitySet="QuestionTable" />
+            <End Role="AnswerTable" EntitySet="AnswerTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnswerTable_UserTable" Association="Self.FK_AnswerTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="AnswerTable" EntitySet="AnswerTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuestionTable_UserTable" Association="Self.FK_QuestionTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="QuestionTable" EntitySet="QuestionTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AskQuestionDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AnswerTable">
+          <Key>
+            <PropertyRef Name="answerId" />
+          </Key>
+          <Property Name="answerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="questionId" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="QuestionTable" Relationship="AskQuestionDBModel.FK_AnswerTable_QuestionTable" FromRole="AnswerTable" ToRole="QuestionTable" />
+          <NavigationProperty Name="UserTable" Relationship="AskQuestionDBModel.FK_AnswerTable_UserTable" FromRole="AnswerTable" ToRole="UserTable" />
+        </EntityType>
+        <EntityType Name="QuestionTable">
+          <Key>
+            <PropertyRef Name="questionId" />
+          </Key>
+          <Property Name="questionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="photo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="view" Type="Int32" />
+          <Property Name="userName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AnswerTable" Relationship="AskQuestionDBModel.FK_AnswerTable_QuestionTable" FromRole="QuestionTable" ToRole="AnswerTable" />
+          <NavigationProperty Name="UserTable" Relationship="AskQuestionDBModel.FK_QuestionTable_UserTable" FromRole="QuestionTable" ToRole="UserTable" />
+        </EntityType>
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="photo" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="userIsAdmin" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AnswerTable" Relationship="AskQuestionDBModel.FK_AnswerTable_UserTable" FromRole="UserTable" ToRole="AnswerTable" />
+          <NavigationProperty Name="QuestionTable" Relationship="AskQuestionDBModel.FK_QuestionTable_UserTable" FromRole="UserTable" ToRole="QuestionTable" />
+        </EntityType>
+        <EntityContainer Name="AskQuestionDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AnswerTable" EntityType="Self.AnswerTable" />
+          <EntitySet Name="QuestionTable" EntityType="Self.QuestionTable" />
+          <EntitySet Name="UserTable" EntityType="Self.UserTable" />
+          <AssociationSet Name="FK_AnswerTable_QuestionTable" Association="AskQuestionDBModel.FK_AnswerTable_QuestionTable">
+            <End Role="QuestionTable" EntitySet="QuestionTable" />
+            <End Role="AnswerTable" EntitySet="AnswerTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnswerTable_UserTable" Association="AskQuestionDBModel.FK_AnswerTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="AnswerTable" EntitySet="AnswerTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuestionTable_UserTable" Association="AskQuestionDBModel.FK_QuestionTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="QuestionTable" EntitySet="QuestionTable" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_AnswerTable_QuestionTable">
+          <End Type="AskQuestionDBModel.QuestionTable" Role="QuestionTable" Multiplicity="1" />
+          <End Type="AskQuestionDBModel.AnswerTable" Role="AnswerTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionTable">
+              <PropertyRef Name="questionId" />
+            </Principal>
+            <Dependent Role="AnswerTable">
+              <PropertyRef Name="questionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnswerTable_UserTable">
+          <End Type="AskQuestionDBModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="AskQuestionDBModel.AnswerTable" Role="AnswerTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="AnswerTable">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuestionTable_UserTable">
+          <End Type="AskQuestionDBModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="AskQuestionDBModel.QuestionTable" Role="QuestionTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="QuestionTable">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AskQuestionDBModelStoreContainer" CdmEntityContainer="AskQuestionDBEntities">
+          <EntitySetMapping Name="AnswerTable">
+            <EntityTypeMapping TypeName="AskQuestionDBModel.AnswerTable">
+              <MappingFragment StoreEntitySet="AnswerTable">
+                <ScalarProperty Name="answerId" ColumnName="answerId" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="questionId" ColumnName="questionId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionTable">
+            <EntityTypeMapping TypeName="AskQuestionDBModel.QuestionTable">
+              <MappingFragment StoreEntitySet="QuestionTable">
+                <ScalarProperty Name="questionId" ColumnName="questionId" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="view" ColumnName="view" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTable">
+            <EntityTypeMapping TypeName="AskQuestionDBModel.UserTable">
+              <MappingFragment StoreEntitySet="UserTable">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="userIsAdmin" ColumnName="userIsAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

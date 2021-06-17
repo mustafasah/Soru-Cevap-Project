@@ -1,0 +1,99 @@
+<div fxLayout="row wrap">
+    <div fxFlex.gt-lg="25" fxFlex.gt-md="40" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card class="oh text-center little-profile">
+            <img mat-card-image src="assets/images/background/profile-bg.jpg" alt="Photo of a Shiba Inu">
+            <mat-card-content>
+                <div class="pro-img">
+                    <input type="file" hidden="true" #foto (change)="selectPhoto($event)" onclick="this.value=null">
+                    <button *ngIf="localControl" mat-raised-button color="primary" (click)="foto.click()" accept=".jpg,.png">Fotoğraf Seç</button>
+                        <ng-container *ngIf="selectedPhoto; else zxc">
+                            <img [src]="selectedPhoto" width="100"/>
+                        </ng-container>
+                        <ng-template #zxc>
+                            <img [src]="dotnetservice.domainUrl + 'Files/' + user.photo" width="100" alt="user" class="img-circle">
+                        </ng-template>
+                    <button *ngIf="localControl" mat-raised-button color="primary" (click)="savePhoto()"
+                    [disabled]="!selectedPhoto">Kaydet</button>&nbsp;
+                </div>
+                <h3 class="m-b-0">{{user.userName}}</h3>
+                <h6 class="m-t-0 ">{{user.email}}</h6>
+                <mat-card-actions>
+                    <button *ngIf="dotnetservice.authControl(['Admin'])" mat-raised-button color="warn" (click)="deleteUser()">Kişiyi Sil</button>
+                </mat-card-actions>
+                <div fxLayout="row" fxLayoutWrap="wrap" class="m-t-30">
+                    <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="33.33%" fxFlex="100">
+                        <h3 class="m-0 font-light">{{questions.length}}</h3>
+                        <small>Soru Sordu</small>
+                    </div>
+                    <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="33.33%" fxFlex="100">
+                        <h3 class="m-0 font-light"></h3>
+                        <small></small>
+                    </div>
+                    <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="33.33%" fxFlex="100">
+                        <h3 class="m-0 font-light">{{answers.length}}</h3>
+                        <small>Cevap Verdi</small>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-lg="75" fxFlex.gt-md="60" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-tab-group>
+                <!-- Tab 1 -->
+                <mat-tab label="Aktiviteler">
+                    <mat-card-content>
+                        <div class="d-flex no-blcok" *ngFor='let question of questions'>
+                            <div [routerLink]="['/user', question.userId]" class="m-r-20">
+                                <img class="img-circle" width="50" [src]="dotnetservice.domainUrl + 'Files/' + question.photo">
+                            </div>
+                            <div [routerLink]="['/question', question.questionId]" class="p-b-20 b-b m-b-30">
+                                <h4 class="m-0">{{question.userName}}
+                                    <small class="text-muted">({{question.date | date:'dd.MM.yyyy HH:mm:ss'}})</small>
+                                </h4>
+                                <p >{{question.title}}</p>
+                                <p class="text-muted">{{question.description}}</p>
+                                <p class="text-muted"><i class="mdi mdi-eye"> </i>={{question.view}}</p>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-tab>
+                <!-- End Tab 1 -->
+                <!-- Tab 2 -->
+                <mat-tab label="Profil" *ngIf="localControl">
+                    <mat-card-content>
+                        <mat-card-title>Profili Düzenle</mat-card-title>
+                        <!-- ============================================================== -->
+                        <!-- column -->
+                        <!-- ============================================================== -->
+                        <form class="basic-form">
+                            <div fxLayout="row wrap">
+                                <!-- column -->
+                                <div fxFlex.gt-sm="100" fxFlex="100">
+                                    <mat-form-field>
+                                        <input matInput #uname placeholder="Yeni Kullanıcı Adı Belirle">
+                                    </mat-form-field>
+                                </div>
+                                <!-- column -->
+                                <div fxFlex.gt-sm="100" fxFlex="100">
+                                    <mat-form-field>
+                                        <input matInput #email placeholder="Yeni Eposta Adresi Belirle" type="email">
+                                    </mat-form-field>
+                                </div>
+                                <!-- column -->
+                                <div fxFlex.gt-sm="100" fxFlex="100">
+                                    <mat-form-field>
+                                        <input matInput #password placeholder="Yeni Parola Belirle" type="password">
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex.gt-sm="100" fxFlex="100">
+                                    <button mat-raised-button color="primary" (click)="editUser(uname.value, email.value, password.value)">Güncelle</button>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-card-content>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card>        
+    </div>
+</div>

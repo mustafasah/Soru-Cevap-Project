@@ -1,0 +1,16 @@
+<div fxLayout="row">
+    <div fxFlex.gt-sm="100%">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title>Kullanıcılar</mat-card-title>
+                <mat-list>
+                    <mat-list-item *ngFor="let user of userList">
+                        <img style="cursor: pointer;" [routerLink]="['/user', user.userId]" mat-list-avatar [src]="dotnetservice.domainUrl + 'Files/' + user.photo">
+                        <h3 style="cursor: pointer;" [routerLink]="['/user', user.userId]" matLine>{{user.userName}}</h3>
+                        <p matLine class="text-muted">{{user.email}}</p>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

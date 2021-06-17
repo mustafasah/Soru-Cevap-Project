@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AskQuestionDBModelStoreContainer" CdmEntityContainer="AskQuestionDBEntities">
+    <EntitySetMapping Name="AnswerTable">
+      <EntityTypeMapping TypeName="AskQuestionDBModel.AnswerTable">
+        <MappingFragment StoreEntitySet="AnswerTable">
+          <ScalarProperty Name="answerId" ColumnName="answerId" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="questionId" ColumnName="questionId" />
+          <ScalarProperty Name="date" ColumnName="date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuestionTable">
+      <EntityTypeMapping TypeName="AskQuestionDBModel.QuestionTable">
+        <MappingFragment StoreEntitySet="QuestionTable">
+          <ScalarProperty Name="questionId" ColumnName="questionId" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="photo" ColumnName="photo" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="view" ColumnName="view" />
+          <ScalarProperty Name="userName" ColumnName="userName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserTable">
+      <EntityTypeMapping TypeName="AskQuestionDBModel.UserTable">
+        <MappingFragment StoreEntitySet="UserTable">
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="userName" ColumnName="userName" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="photo" ColumnName="photo" />
+          <ScalarProperty Name="userIsAdmin" ColumnName="userIsAdmin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

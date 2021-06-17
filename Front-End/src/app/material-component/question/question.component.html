@@ -1,0 +1,72 @@
+<mat-card>
+    <mat-card-content fxFlex.gt-sm="95%">
+        <div>
+            <div [routerLink]="['/user', question.userId]" class="m-r-20">
+                <button mat-icon-button class="m-r-5"> <img [src]="dotnetservice.domainUrl + 'Files/' + question.photo" width="80"
+                        alt="user" class="profile-pic"> </button>
+                <p class="m-t-30" style="color: cornflowerblue;">{{question.userName}}</p>
+            </div>
+            <ng-template #dontWantEdit>
+                <div class="p-b-20 b-b m-b-30 m-l-5 m-t-10">
+                    <div class="row m-l-5">
+                        <h4 class="m-0 m-l-5"> {{question.title}}
+                            <small class="text-muted">({{question.date | date:'dd.MM.yyyy HH:mm:ss'}})</small>
+                            <small class="text-muted"> &nbsp;&nbsp; <i class="mdi mdi-eye">
+                                </i>={{question.view}}</small>
+                        </h4>
+                    </div>
+                    <p class="m-l-5">{{question.description}}</p>
+                </div>
+            </ng-template>
+            <ng-container *ngIf="wantEdit; else dontWantEdit">
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Yeni Soru</mat-label>
+                        <textarea matInput #textareaTitle value="{{question.title}}"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Yeni İçerik</mat-label>
+                        <textarea matInput #textareaDescription value="{{question.description}}"></textarea>
+                    </mat-form-field>
+                    <button mat-raised-button color="primary"
+                        (click)="editQuestion(textareaTitle.value, textareaDescription.value)">Değiştir</button>
+                </div>
+            </ng-container>
+        </div>
+        <div *ngIf="!wantEdit">
+            <div *ngIf="!this.dotnetservice.checkLogin()">
+                <h4 class="m-l-5"><a href="#" [routerLink]="['/login']">Cevap Yazmak İçin Oturum Açın</a></h4>
+            </div>
+            <div *ngIf="this.dotnetservice.checkLogin()">
+                <mat-form-field appearance="fill">
+                    <mat-label>Cevapla</mat-label>
+                    <textarea matInput #textarea></textarea>
+                </mat-form-field>
+                <mat-chip-list class="mat-chip-list-stacked">
+                    <mat-chip (click)="addAnswer(textarea.value)" (focus)="color = gray" color="gray" selected="true">
+                        Gönder</mat-chip>
+                </mat-chip-list>
+            </div>
+        </div>
+        <mat-card-content>
+            <div class="d-flex no-blcok" *ngFor='let answer of answers'>
+                <div [routerLink]="['/user', answer.userId]" class="m-r-20">
+                    <img class="img-circle" width="50" [src]="dotnetservice.domainUrl + 'Files/' + answer.photo">
+                </div>
+                <div [routerLink]="['/question', answer.questionId]" class="p-b-20 b-b m-b-30">
+                    <h4 class="m-0">{{answer.userName}}
+                        <small class="text-muted">({{question.date | date:'dd.MM.yyyy HH:mm:ss'}})</small>
+                    </h4>
+                    <p>{{answer.description}}</p>
+                </div>
+                <mat-icon style="cursor: pointer" (click)="deleteAnswer(answer.answerId)" class="example-icon"
+                *ngIf="dotnetservice.authControl(['Admin']) || onlyQuestionOwnerEdit || onlyAnswerOwnerEdit(answer.userId)">delete</mat-icon>
+            </div>
+        </mat-card-content>
+    </mat-card-content>
+    <div fxFlex.gt-sm="5%" class="m-t-30">
+        <mat-icon style="cursor: pointer" (click)="deleteQuestion()" class="example-icon"
+            *ngIf="dotnetservice.authControl(['Admin']) || onlyQuestionOwnerEdit">delete</mat-icon>
+        <mat-icon style="cursor: pointer" (click)="clicled()" class="example-icon" *ngIf="onlyQuestionOwnerEdit">edit</mat-icon>
+    </div>
+</mat-card>

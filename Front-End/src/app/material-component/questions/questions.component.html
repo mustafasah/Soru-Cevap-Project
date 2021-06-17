@@ -1,0 +1,29 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+    <div fxFlex.gt-sm="90%">
+        <mat-card-title>Sorular </mat-card-title>
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title>En Son Sorulan Sorular</mat-card-title>
+                <mat-card-subtitle>Sorular Eklendikçe Anında Güncellenir. DETAY İÇİN SORUYA TIKLAYIN</mat-card-subtitle>
+                <mat-card-content>
+                    <div class="d-flex no-blcok" *ngFor='let question of questionlist'>
+                        <div [routerLink]="['/user', question.userId]" class="m-r-20">
+                            <img class="img-circle" width="50" [src]="dotnetservice.domainUrl + 'Files/' + question.photo">
+                        </div>
+                        <div [routerLink]="['/question', question.questionId]" class="p-b-20 b-b m-b-30">
+                            <h4 class="m-0">{{question.userName}}
+                                <small class="text-muted">({{question.date | date:'dd.MM.yyyy HH:mm:ss'}})</small>
+                            </h4>
+                            <p >{{question.title}}</p>
+                            <p class="text-muted">{{question.description}}</p>
+                            <p class="text-muted"><i class="mdi mdi-eye"> </i>={{question.view}}</p>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="10%">
+        <button (click)="askQuestion()" mat-raised-button color="warn">Soru Sor</button>
+    </div>
+</div>

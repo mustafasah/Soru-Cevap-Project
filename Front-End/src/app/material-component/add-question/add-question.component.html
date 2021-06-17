@@ -1,0 +1,20 @@
+<mat-card>
+    <mat-card-content>
+        <mat-card-title>Soru Başlığı</mat-card-title>
+        <mat-form-field>
+            <input matInput placeholder="Başlığı Buraya Yazın" #title>
+        </mat-form-field>
+    </mat-card-content>
+</mat-card>
+<mat-card>
+    <mat-card-content>
+        <mat-card-title>Soru İçeriği</mat-card-title>
+        <mat-form-field appearance="fill">
+            <mat-label>Ne Sormak İstiyorsun?</mat-label>
+            <textarea matInput #textarea></textarea>
+          </mat-form-field>
+        <div>
+            <button mat-raised-button color="accent" (click)="addQuestionButton(title.value, textarea.value)">Ekle</button>
+        </div>
+    </mat-card-content>
+</mat-card>

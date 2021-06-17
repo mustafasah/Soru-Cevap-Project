@@ -1,0 +1,32 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+    <!-- Card column -->
+    <div fxFlex.gt-sm="100%" fxFlex="100">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title>Giriş Yap</mat-card-title>
+                <div style="width: 50%">
+                    <p>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Kullanıcı Adı</mat-label>
+                            <input matInput #username placeholder="yournickname">
+                            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                            <!-- <mat-hint>Hint</mat-hint> -->
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Parolanızı Girin</mat-label>
+                            <input matInput placeholder="En Az 6 Karakter" #password
+                                [type]="hide ? 'password' : 'text'">
+                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                [attr.aria-pressed]="hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <button mat-raised-button color="accent" (click)="login(username.value, password.value)">Giriş</button>
+                    </p>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

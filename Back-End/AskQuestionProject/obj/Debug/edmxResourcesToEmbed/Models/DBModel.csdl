@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AskQuestionDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AnswerTable">
+    <Key>
+      <PropertyRef Name="answerId" />
+    </Key>
+    <Property Name="answerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="description" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+    <Property Name="userId" Type="Int32" Nullable="false" />
+    <Property Name="questionId" Type="Int32" Nullable="false" />
+    <Property Name="date" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="QuestionTable" Relationship="AskQuestionDBModel.FK_AnswerTable_QuestionTable" FromRole="AnswerTable" ToRole="QuestionTable" />
+    <NavigationProperty Name="UserTable" Relationship="AskQuestionDBModel.FK_AnswerTable_UserTable" FromRole="AnswerTable" ToRole="UserTable" />
+  </EntityType>
+  <EntityType Name="QuestionTable">
+    <Key>
+      <PropertyRef Name="questionId" />
+    </Key>
+    <Property Name="questionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="photo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="date" Type="DateTime" Precision="3" />
+    <Property Name="userId" Type="Int32" Nullable="false" />
+    <Property Name="view" Type="Int32" />
+    <Property Name="userName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AnswerTable" Relationship="AskQuestionDBModel.FK_AnswerTable_QuestionTable" FromRole="QuestionTable" ToRole="AnswerTable" />
+    <NavigationProperty Name="UserTable" Relationship="AskQuestionDBModel.FK_QuestionTable_UserTable" FromRole="QuestionTable" ToRole="UserTable" />
+  </EntityType>
+  <EntityType Name="UserTable">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="photo" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="userIsAdmin" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AnswerTable" Relationship="AskQuestionDBModel.FK_AnswerTable_UserTable" FromRole="UserTable" ToRole="AnswerTable" />
+    <NavigationProperty Name="QuestionTable" Relationship="AskQuestionDBModel.FK_QuestionTable_UserTable" FromRole="UserTable" ToRole="QuestionTable" />
+  </EntityType>
+  <EntityContainer Name="AskQuestionDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AnswerTable" EntityType="Self.AnswerTable" />
+    <EntitySet Name="QuestionTable" EntityType="Self.QuestionTable" />
+    <EntitySet Name="UserTable" EntityType="Self.UserTable" />
+    <AssociationSet Name="FK_AnswerTable_QuestionTable" Association="AskQuestionDBModel.FK_AnswerTable_QuestionTable">
+      <End Role="QuestionTable" EntitySet="QuestionTable" />
+      <End Role="AnswerTable" EntitySet="AnswerTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AnswerTable_UserTable" Association="AskQuestionDBModel.FK_AnswerTable_UserTable">
+      <End Role="UserTable" EntitySet="UserTable" />
+      <End Role="AnswerTable" EntitySet="AnswerTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuestionTable_UserTable" Association="AskQuestionDBModel.FK_QuestionTable_UserTable">
+      <End Role="UserTable" EntitySet="UserTable" />
+      <End Role="QuestionTable" EntitySet="QuestionTable" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_AnswerTable_QuestionTable">
+    <End Type="AskQuestionDBModel.QuestionTable" Role="QuestionTable" Multiplicity="1" />
+    <End Type="AskQuestionDBModel.AnswerTable" Role="AnswerTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionTable">
+        <PropertyRef Name="questionId" />
+      </Principal>
+      <Dependent Role="AnswerTable">
+        <PropertyRef Name="questionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AnswerTable_UserTable">
+    <End Type="AskQuestionDBModel.UserTable" Role="UserTable" Multiplicity="1" />
+    <End Type="AskQuestionDBModel.AnswerTable" Role="AnswerTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserTable">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="AnswerTable">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuestionTable_UserTable">
+    <End Type="AskQuestionDBModel.UserTable" Role="UserTable" Multiplicity="1" />
+    <End Type="AskQuestionDBModel.QuestionTable" Role="QuestionTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserTable">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="QuestionTable">
+        <PropertyRef Name="userId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

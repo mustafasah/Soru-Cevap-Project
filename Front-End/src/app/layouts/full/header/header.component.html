@@ -1,0 +1,23 @@
+<a routerLink="register" class=" m-r-20 hidden-sm-up" mat-raised-button color="warn" *ngIf="!localUId">Kaydol</a>
+<ng-container *ngIf="!uphoto; else have">
+    <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <img src="assets/images/users/default2.jpg"
+            alt="user" class="profile-pic"> </button>
+    <mat-menu #profile="matMenu" class="mymegamenu">
+        <button mat-menu-item (click)="routeLogin()">
+            <mat-icon>exit_to_app</mat-icon> Giriş
+        </button>
+    </mat-menu>
+</ng-container>
+
+<ng-template #have>
+    <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <img [src]="dotnetservice.domainUrl + 'Files/' + uphoto"
+            alt="user" class="profile-pic"> </button>
+    <mat-menu #profile="matMenu" class="mymegamenu">
+        <button mat-menu-item [routerLink]="['/user', localUId]">
+            <mat-icon>account_box</mat-icon> Profil
+        </button>
+        <button mat-menu-item (click)="logOut()">
+            <mat-icon>exit_to_app</mat-icon> Çıkış
+        </button>
+    </mat-menu>
+</ng-template>
